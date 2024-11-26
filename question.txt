@@ -1,0 +1,34 @@
+1. Design an application to create form using TextField, TextArea, Button, and Label.
+2. Develop a program to select multiple languages known to the user (Marathi, Hindi, English, Sanskrit) and gender of the user.
+3. Develop an applet/application to select multiple names of newspapers using List.
+4. Develop an applet using List components to add names of 10 different cities.
+5. Design a program to demonstrate the use of Border layout (Constants used to specify areas: CENTER, EAST, NORTH, SOUTH, WEST).
+6. Write a program to create a grid using GridLayout with rows and columns. Add buttons or labels to the grid.
+7. Write a program which creates a Menu of different colors and disables the menu item for Black color.
+8. Write a program to perform addition of two numbers using event handling.
+9. Develop a program using AWT to create a menubar in an applet window.
+10. Write a program using Swing to display a JComboBox in an applet.
+11. Create a simple stopwatch application using JLabel to display time in seconds, and JButton for start, stop, and reset. Use a Timer to update the time every second and allow the user to start, stop, and reset the stopwatch with the corresponding buttons.
+12. Write a JTree program to show the root directory and its subfolders of your system.
+13. Write a program to create a table of names of students, percentage, and grade of 10 students using JTable.
+14. Develop a Program to display the key pressed, key typed, and key released events on an Applet window.
+15. Develop a program to accept two numbers and display the product of two numbers when the user presses the "Multiply" button.
+16. Write a program using JPasswordField and JTextField to demonstrate the use of user authentication.
+17. Write a program to count the number of clicks performed by the user in a frame.
+18. Develop a program using InetAddress class to retrieve the IP address of the computer when the hostname is entered by the user.
+19. Write a program using URL class to retrieve the host, protocol, port, and the file of URL http://www.msbte.org.in.
+20. Write a program to create a "Student" table in a database and insert a record into it.
+21. Write a Servlet program to send a username and password using HTML forms and authenticate the user.
+22. Write a program to demonstrate session tracking using Cookies (Store username and email address where email address will be the value).
+23. Develop a program to display the name and roll number of students from the “studenttable” having a percentage > 70.
+24. Develop a program to update the name of a student from "Jack" to "David".
+25. Develop a JDBC program to retrieve data using ResultSet.
+26. Develop a program to delete all records for a product whose "price is greater than 500" and Id is "A003".
+27. Develop a program to receive parameters through HTML forms and send back the received parameter to the browser.
+28. Write a program to send the username to the server, and the server will send the length of the username to the client.
+29. Develop a Servlet program to retrieve data from List and Radio Buttons using HTML Forms.
+30. Develop a program to receive student subject marks through HTML forms TextField and send the response as "passed" or "failed" in the examination.
+31. Write a program to check credentials of users (Client will send user ID and password to server, and the server will authenticate the client using equals()).
+32. Write a program using Socket and ServerSocket to create a Chat Application.
+33. Write a program to develop a prime number server (Client will send any number to the server, and the server will respond whether the number is prime or not).
+34. Write a program using DatagramPacket and DatagramSocket to create a chat application.

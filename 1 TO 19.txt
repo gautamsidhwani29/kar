@@ -1,0 +1,693 @@
+
+
+javac SimpleApplet.java
+
+appletviewer SimpleApplet.html
+
+
+1. Design an application to create form using TextField, TextArea, Button and Label. 
+
+import java.awt.*;
+import java.net.*;
+import java.util.*;
+public class Question_1 {
+    public static void main(String[] args) {
+        Frame f1 = new Frame("Form");
+        TextArea ta1 = new TextArea();
+        ta1.setText("Vivekanand");
+        TextField t1 = new TextField("Enter Name: ");
+        TextField t2 = new TextField("Enter Branch: ");
+        Label l1 = new Label("Did you like it? : ");
+        Button b1 = new Button("Yes");
+        Button b2 = new Button("No");
+        f1.add(ta1);
+        f1.add(t1);
+        f1.add(t2);
+        f1.add(l1);
+        f1.add(b1);
+        f1.add(b2);
+        f1.setLayout(new FlowLayout());
+        f1.setSize(400, 300);
+        f1.setVisible(true);
+        b1.addActionListener(e -> {
+            ta1.setText("You liked it!");
+        });
+        b2.addActionListener(e -> {
+            ta1.setText("You didn't like it.");
+        });
+    }
+}
+
+
+2. Develop a program to select multiple languages known to the user (Marathi ,Hindi ,English,Sanskrit) and gender of the user. 
+
+import java.awt.*;
+
+public class Question_2 {
+    public static void main(String[] args) {
+        Frame f1 = new Frame("Language and Gender Selector");
+        f1.setLayout(new GridLayout(10, 1));
+        Label l1 = new Label("Select Languages Known:");
+        Label l2 = new Label("Select Your Gender:");
+        Checkbox marathi = new Checkbox("Marathi");
+        Checkbox hindi = new Checkbox("Hindi");
+        Checkbox english = new Checkbox("English");
+        Checkbox sanskrit = new Checkbox("Sanskrit");
+        Checkbox gujarati = new Checkbox("Gujarati");
+        CheckboxGroup genderGroup = new CheckboxGroup();
+        Checkbox male = new Checkbox("Male", genderGroup, false);
+        Checkbox female = new Checkbox("Female", genderGroup, false);
+        Checkbox other = new Checkbox("Other", genderGroup, false);
+        Button showResult = new Button("Show Result");
+
+        f1.add(l1);
+        f1.add(marathi);
+        f1.add(hindi);
+        f1.add(english);
+        f1.add(sanskrit);
+        f1.add(gujarati);
+        f1.add(l2);
+        f1.add(male);
+        f1.add(female);
+        f1.add(other);
+        f1.add(showResult);
+
+        showResult.addActionListener(e -> {
+            String result = "Languages Known: ";
+            if (marathi.getState()) result += "Marathi ";
+            if (hindi.getState()) result += "Hindi ";
+            if (english.getState()) result += "English ";
+            if (sanskrit.getState()) result += "Sanskrit ";
+            if (gujarati.getState()) result += "Gujarati ";
+            result += "\nGender: ";
+            if (male.getState()) result += "Male";
+            else if (female.getState()) result += "Female";
+            else if (other.getState()) result += "Other";
+
+            Dialog dialog = new Dialog(f1, "Selected Options", true);
+            dialog.setLayout(new GridLayout(2, 1));
+            dialog.add(new Label(result));
+            Button ok = new Button("OK");
+            dialog.add(ok);
+            ok.addActionListener(e2 -> dialog.setVisible(false));
+            dialog.setSize(300, 200);
+            dialog.setVisible(true);
+        });
+
+        f1.setSize(400, 400);
+        f1.setVisible(true);
+        f1.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                System.exit(0);
+            }
+        });
+    }
+}
+
+
+3. Develop an applet/application to select multiple names of news Papers using List. 
+
+import java.awt.*;
+
+public class Question_3 {
+    public static void main(String[] args) {
+        Frame f1 = new Frame("Newspaper Selection");
+        f1.setLayout(new GridLayout(3, 1));
+        List newspaperList = new List();
+        for (String paper : new String[]{"Times of India", "Hindustan Times", "Mid-Day", "The Economic Times"})
+            newspaperList.add(paper);
+        newspaperList.setMultipleMode(true);
+        Button show = new Button("Show Selected");
+        show.addActionListener(e -> {
+            String result = String.join(", ", newspaperList.getSelectedItems());
+            Dialog d = new Dialog(f1, "Selected Newspapers", true);
+            d.setLayout(new FlowLayout());
+            d.add(new Label(result.isEmpty() ? "No newspaper selected" : result));
+            Button ok = new Button("OK");
+            ok.addActionListener(e2 -> d.setVisible(false));
+            d.add(ok);
+            d.setSize(300, 150);
+            d.setVisible(true);
+        });
+        f1.add(new Label("Choose your Favourite Newspaper:"));
+        f1.add(newspaperList);
+        f1.add(show);
+        f1.setSize(400, 300);
+        f1.setVisible(true);
+        f1.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+}
+
+4. Develop an applet using List components to add names of 10 different cities. 
+
+import java.awt.*;
+import java.applet.Applet;
+
+public class Question_4 extends Applet {
+    public void init() {
+        setLayout(new GridLayout(8, 1));
+        List cityList = new List();
+        cityList.add("Mumbai");
+        cityList.add("Delhi");
+        cityList.add("Pune");
+        cityList.add("Patna");
+        cityList.add("Kolkata");
+        cityList.add("Chennai");
+        cityList.add("Bengaluru");
+        cityList.add("Amritsar");
+        cityList.add("Mirzapur");
+        cityList.add("Nagpur");
+        Button showResult = new Button("Show Selected");
+
+        showResult.addActionListener(e -> {
+            String selectedCity = cityList.getSelectedItem();
+            Frame parentFrame = new Frame();  // Create a Frame for the Dialog parent
+            Dialog d = new Dialog(parentFrame, "Selected City", true);
+            d.setLayout(new FlowLayout());
+            d.add(new Label(selectedCity == null ? "No city selected" : "Selected City: " + selectedCity));
+            Button ok = new Button("OK");
+            ok.addActionListener(e2 -> d.setVisible(false));
+            d.add(ok);
+            d.setSize(250, 100);
+            d.setVisible(true);
+        });
+
+        add(new Label("Choose your City: "));
+        add(cityList);
+        add(showResult);
+    }
+}
+/*
+    <applet code="Question_4.class" width="400" height="300">    </applet>
+*/
+
+5. Design a program to demonstrate the use of Border layout (Constants used to specify areas: CENTER, EAST, NORTH, SOUTH, WEST) 
+
+import java.awt.*;
+class BoderLayoutDemo extends Frame {
+BoderLayoutDemo()
+    {
+        Panel pa = new Panel();
+        pa.setLayout(new BorderLayout());
+        pa.add(new Button("North"), BorderLayout.NORTH);
+        pa.add(new Button("South"), BorderLayout.SOUTH);
+        pa.add(new Button("East"), BorderLayout.EAST);
+        pa.add(new Button("West"), BorderLayout.WEST);
+        pa.add(new Button("Center"), BorderLayout.CENTER);
+        add(pa);
+        setSize(300, 300);
+        setVisible(true);
+    }
+}
+class Question_5 {
+    public static void main(String[] args)
+    {
+        new BoderLayoutDemo();
+    }
+}
+
+6. Write a program to create a grid using GridLayout with rows and columns. Add buttons or labels to the grid. 
+
+import java.awt.*;
+public class Question_6 {
+    Frame f;
+    Question_6() {
+        f = new Frame();
+        f.setLayout(new BorderLayout());
+        Label n1 = new Label("1-5");
+        Label n2 = new Label("6-10");
+        Label n3 = new Label("11-15");
+        Label n4 = new Label("16-20");
+        Label n5 = new Label("21-25");
+        Panel ip = new Panel();
+        ip.setLayout(new GridLayout(5, 1));
+        ip.add(n1);
+        ip.add(n2);
+        ip.add(n3);
+        ip.add(n4);
+        ip.add(n5);
+        Panel bp = new Panel();
+        bp.setLayout(new GridLayout(5, 5));
+        for (int i = 1; i <= 25; i++) {
+            Button b = new Button(Integer.toString(i));
+            bp.add(b);
+        }
+        f.add(ip, BorderLayout.WEST);
+        f.add(bp, BorderLayout.CENTER);
+        f.setSize(400, 400);
+        f.setVisible(true);
+    }
+    public static void main(String[] args) {
+        new Question_6();
+    }
+}
+
+
+7. Write a program which creates Menu of different colors and disable menu item for Black color. 
+
+import java.awt.*;
+import javax.swing.*;
+
+public class Question_7 extends JFrame {
+    public Question_7() {
+        setTitle("Color Menu Example");
+        setSize(400, 400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu colorMenu = new JMenu("Colors");
+        
+        JMenuItem redItem = new JMenuItem("Red");
+        JMenuItem greenItem = new JMenuItem("Pink");
+        JMenuItem blueItem = new JMenuItem("Cyan");
+        JMenuItem yellowItem = new JMenuItem("Yellow");
+        JMenuItem blackItem = new JMenuItem("Black");
+
+        redItem.addActionListener(e -> getContentPane().setBackground(Color.RED));
+        greenItem.addActionListener(e -> getContentPane().setBackground(Color.PINK));
+        blueItem.addActionListener(e -> getContentPane().setBackground(Color.CYAN));
+        yellowItem.addActionListener(e -> getContentPane().setBackground(Color.YELLOW));
+
+        blackItem.setEnabled(false); // Disable Black item
+
+        colorMenu.add(redItem);
+        colorMenu.add(greenItem);
+        colorMenu.add(blueItem);
+        colorMenu.add(yellowItem);
+        colorMenu.add(blackItem);
+
+        menuBar.add(colorMenu);
+        setJMenuBar(menuBar);
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new Question_7();
+    }
+}
+
+8. Write a program to perform addition of two no using event handling. 
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class Question_8 extends Frame {
+    TextField num1, num2, result;
+    Button addButton;
+    public Question_8() {
+        setLayout(new FlowLayout());
+        num1 = new TextField(10);
+        num2 = new TextField(10);
+        result = new TextField(10);
+        result.setEditable(false);
+        addButton = new Button("Add");
+        add(new Label("Enter number 1:"));
+        add(num1);
+        add(new Label("Enter number 2:"));
+        add(num2);
+        add(new Label("Result:"));
+        add(result);
+        add(addButton);
+        addButton.addActionListener(e -> {
+            int n1 = Integer.parseInt(num1.getText());
+            int n2 = Integer.parseInt(num2.getText());
+            result.setText(String.valueOf(n1 + n2));
+        });
+        setSize(250, 200);
+        setVisible(true);
+    }
+    public static void main(String[] args) {
+        new Question_8();
+    }
+}
+
+
+9. Develop a program using AWT to create a menubar in an applet window. 
+
+ import java.awt.*;
+import java.applet.Applet;
+public class Question_9 extends Applet {
+    public void init() {
+        Frame frame = new Frame("Applet with Menu");
+        MenuBar menuBar = new MenuBar();
+        Menu fileMenu = new Menu("File");
+        MenuItem newItem = new MenuItem("New");
+        MenuItem openItem = new MenuItem("Open");
+        MenuItem saveItem = new MenuItem("Save");
+        fileMenu.add(newItem);
+        fileMenu.add(openItem);
+        fileMenu.add(saveItem);
+        Menu editMenu = new Menu("Edit");
+        MenuItem cutItem = new MenuItem("Cut");
+        MenuItem copyItem = new MenuItem("Copy");
+        MenuItem pasteItem = new MenuItem("Paste");
+        editMenu.add(cutItem);
+        editMenu.add(copyItem);
+        editMenu.add(pasteItem);
+        menuBar.add(fileMenu);
+        menuBar.add(editMenu);
+        frame.setMenuBar(menuBar);
+        frame.setSize(300, 300);
+        frame.setVisible(true);
+    }
+}
+/*
+<applet code="Question_9.class" width="300" height="300"></applet>
+*/
+
+
+10. Write a program using swing to display a JcomboBox in an applet 
+
+import javax.swing.*;
+import java.applet.Applet;
+import java.awt.*;
+public class Question_10 extends Applet {
+    public void init() {
+        String fruits[] = {"Select Fruit", "Apple", "Banana", "Orange", "Mango", "Grapes"};
+        String vegetables[] = {"Select Vegetable", "Carrot", "Broccoli", "Spinach", "Potato", "Tomato"};
+        
+        JComboBox fruitComboBox = new JComboBox(fruits);
+        JComboBox vegetableComboBox = new JComboBox(vegetables);
+        
+        setLayout(new FlowLayout());
+        
+        add(new JLabel("Choose your favorite fruit:"));
+        add(fruitComboBox);
+        add(new JLabel("Choose your favorite vegetable:"));
+        add(vegetableComboBox);
+    }
+}
+/*
+<applet code="Question_10.class" width="400" height="250"></applet>
+*/
+
+11. Create a simple stopwatch application using JLabel to display time in seconds, and JButton for start, stop, and reset. Use a Timer to update the time every second and allow the user to start,stop, and reset the stopwatch with the corresponding buttons.
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Question_11 extends JFrame {
+    private JLabel timeLabel;
+    private JButton startButton, stopButton, resetButton;
+    private Timer timer;
+    private int seconds = 0;
+
+    public Question_11() {
+        timeLabel = new JLabel("0");
+        startButton = new JButton("Start");
+        stopButton = new JButton("Stop");
+        resetButton = new JButton("Reset");
+
+        add(timeLabel);
+        add(startButton);
+        add(stopButton);
+        add(resetButton);
+        setLayout(new FlowLayout());
+
+        timer = new Timer(1000, e -> timeLabel.setText(String.valueOf(++seconds)));
+
+        startButton.addActionListener(e -> timer.start());
+        stopButton.addActionListener(e -> timer.stop());
+        resetButton.addActionListener(e -> {
+            timer.stop();
+            seconds = 0;
+            timeLabel.setText("0");
+        });
+
+        setSize(200, 150);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public static void main(String[] args) {
+        new Question_11();
+    }
+}
+
+12. Write a Jtree program to show root directory and its subFolders of your System. 
+
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.io.File;
+
+class Question_12 extends JFrame {
+    Question_12() {
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root Directory");
+        File[] drives = File.listRoots();
+        for (File drive : drives) {
+            DefaultMutableTreeNode driveNode = new DefaultMutableTreeNode(drive.getPath());
+            root.add(driveNode);
+            File[] files = drive.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        driveNode.add(new DefaultMutableTreeNode(file.getName()));
+                    }
+                }
+            }
+        }
+        JTree tree = new JTree(root);
+        add(new JScrollPane(tree));
+        setSize(500, 500);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new Question_12();
+    }
+}
+
+
+13. Write a program to create a table of name of student, percentage and grade of 
+      10 students using JTable. 
+
+import javax.swing.*;
+import java.awt.*;
+
+class Question_13 extends JFrame {
+    Question_13() {
+        String[] columnNames = {"Student Name", "Percentage", "Grade"};
+        Object[][] data = {
+            {"John", 85, "A"},
+            {"Sara", 90, "A+"},
+            {"Tom", 78, "B+"},
+            {"Emma", 92, "A+"},
+            {"David", 80, "B"},
+            {"Sophia", 88, "A"},
+            {"James", 76, "B"},
+            {"Isabella", 95, "A+"},
+            {"Liam", 82, "B+"},
+            {"Mia", 87, "A"}
+        };
+        
+        JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        
+        add(scrollPane, BorderLayout.CENTER);
+        setSize(500, 300);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new Question_13();
+    }
+}
+
+14. Develop a Program to display the key pressed, key typed and key released event on Applet Window.
+
+import java.awt.*;
+import java.applet.Applet;
+import java.awt.event.*;
+
+public class Question_14 extends Applet implements KeyListener {
+    String keyPressed = "", keyTyped = "", keyReleased = "";
+    public void init() {
+        addKeyListener(this);
+        setFocusable(true);
+    }
+    public void paint(Graphics g) {
+        g.drawString("Key Pressed: " + keyPressed, 20, 40);
+        g.drawString("Key Typed: " + keyTyped, 20, 60);
+        g.drawString("Key Released: " + keyReleased, 20, 80);
+    }
+    public void keyPressed(KeyEvent e) {
+        keyPressed = "Key Pressed: " + e.getKeyChar();
+        repaint();
+    }
+    public void keyTyped(KeyEvent e) {
+        keyTyped = "Key Typed: " + e.getKeyChar();
+        repaint();
+    }
+    public void keyReleased(KeyEvent e) {
+        keyReleased = "Key Released: " + e.getKeyChar();
+        repaint();
+    }
+}
+
+/*
+<applet code="Question_14.class" width="400" height="200"></applet>
+
+*/
+
+
+15. Develop a program to accept two numbers and display product of two numbers when user presses “Multiply” button.16. 
+
+import javax.swing.*;
+
+public class Question_15 {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        JTextField num1 = new JTextField(10);
+        JTextField num2 = new JTextField(10);
+        JButton multiplyButton = new JButton("Multiply");
+        JLabel resultLabel = new JLabel("Result: ");
+        JLabel label1 = new JLabel("Enter Number 1:");
+        JLabel label2 = new JLabel("Enter Number 2:");
+
+        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        frame.add(label1);
+        frame.add(num1);
+        frame.add(label2);
+        frame.add(num2);
+        frame.add(multiplyButton);
+        frame.add(resultLabel);
+
+        multiplyButton.addActionListener(e -> {
+            try {
+                int product = Integer.parseInt(num1.getText()) * Integer.parseInt(num2.getText());
+                resultLabel.setText("Result: " + product);
+            } catch (Exception ex) {
+                resultLabel.setText("Invalid input");
+            }
+        });
+
+        frame.setSize(250, 200);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}
+
+16. Write a program using JPasswordField and JTextField to demonstrate the use of user authentication. 
+
+import javax.swing.*;
+
+public class Question_16 {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("User Authentication");
+        JLabel usernameLabel = new JLabel("Username:");
+        JTextField usernameField = new JTextField(20);
+        JLabel passwordLabel = new JLabel("Password:");
+        JPasswordField passwordField = new JPasswordField(20);
+        JButton loginButton = new JButton("Login");
+        JLabel messageLabel = new JLabel();
+
+        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        frame.add(usernameLabel);
+        frame.add(usernameField);
+        frame.add(passwordLabel);
+        frame.add(passwordField);
+        frame.add(loginButton);
+        frame.add(messageLabel);
+
+        loginButton.addActionListener(e -> {
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+            if (username.equals("smith") && password.equals("123")) {
+                messageLabel.setText("Login Successful");
+            } else {
+                messageLabel.setText("Invalid Username or Password");
+            }
+        });
+
+        frame.setSize(300, 200);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}
+
+17. Write a program to count the number of clicks performed by the user in a frame. 
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class Question_17 {
+    public static void main(String[] args) {
+        Frame frame = new Frame("Click Counter");
+        Label label = new Label("0");
+        Button button = new Button("Click Me");
+
+        button.addActionListener(e -> label.setText(String.valueOf(Integer.parseInt(label.getText()) + 1)));
+
+        frame.setLayout(new FlowLayout());
+        frame.add(button);
+        frame.add(label);
+        frame.setSize(200, 100);
+        frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                System.exit(0);
+            }
+        });
+    }
+}
+
+
+18. Develop a program using InetAddress class to retrieve IP address of computer when hostname is entered by the user. 
+
+import java.net.*;
+import java.util.Scanner;
+
+public class Question_18 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter hostname: ");
+        String hostname = scanner.nextLine();
+	//type  "hostname" on cmd to get host name of your pc
+        try {
+            InetAddress inetAddress = InetAddress.getByName(hostname);
+            System.out.println("IP address of " + hostname + " is: " + inetAddress.getHostAddress());
+        } catch (UnknownHostException e) {
+            System.out.println("Unable to retrieve IP address for the given hostname.");
+        }
+    }
+}
+
+
+
+19. rite a program using URL class to retrieve the host, protocol, port and the file of URL http:/Awww.msbte.org.in 
+
+import java.net.*;
+
+public class Question_19 {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("http://www.msbte.org.in");
+            
+            // Get the protocol
+            System.out.println("Protocol: " + url.getProtocol());
+            
+            // Get the host
+            System.out.println("Host: " + url.getHost());
+            
+            // Get the port (returns -1 if no specific port is defined)
+            System.out.println("Port: " + url.getPort());
+            
+            // Get the file part of the URL
+            System.out.println("File: " + url.getFile());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+
+
