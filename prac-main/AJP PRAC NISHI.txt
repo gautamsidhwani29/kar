@@ -1,0 +1,2343 @@
+﻿/
+
+
+Here is the list of AWT components and their associated listeners:
+________________
+
+
+AWT Components and Listeners
+1. Button → ActionListener
+2. TextField → ActionListener, TextListener
+3. TextArea → TextListener
+4. Checkbox → ItemListener
+5. CheckboxGroup → ItemListener
+6. Choice → ItemListener
+7. List → ActionListener, ItemListener
+8. Label → (No listeners)
+9. Canvas → MouseListener, MouseMotionListener, KeyListener
+10. ScrollBar → AdjustmentListener
+11. MenuItem → ActionListener
+12. Frame, Dialog, Window → WindowListener, WindowFocusListener, WindowStateListener
+13. Panel → (No listeners)
+14. Applets → MouseListener, MouseMotionListener, KeyListener
+15. Container → (No listeners, but parent components listen to events of child components)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                              CODES
+  
+1. Design an application to create form using TextField , TextArea , Button and Label 
+
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class JavaExpYug{
+        public static void main(String[]args){
+                // Frame initialization
+                JFrame f = new JFrame("Example Form");
+                f.setSize(400,300);
+                f.setLayout(new GridLayout(5,2));
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                //Components initialization
+                JLabel lblName = new JLabel("Enter the name : ");
+                JLabel lblAge = new JLabel("Enter age : ");
+                JLabel lblBranch = new JLabel("Enter the branch : ");
+                JTextField tfName = new JTextField();
+                JTextField tfAge = new JTextField();
+                JTextField tfBranch = new JTextField();
+                JButton btnSubmit = new JButton("SUBMIT");
+                JLabel lblResponse = new JLabel("");
+                //Adding the components in the frame
+                f.add(lblName);
+                f.add(tfName);
+                f.add(lblAge);
+                f.add(tfAge);
+                f.add(lblBranch);
+                f.add(tfBranch);
+                f.add(new Label());
+                f.add(btnSubmit);
+                f.add(lblResponse);
+                //making the listener on the button
+                btnSubmit.addActionListener(new ActionListener(){
+                        @Override
+                        public void actionPerformed(ActionEvent e){
+                                if(tfName.getText().equals("") || tfAge.getText().equals("") || tfBranch.getText().equals("") ){
+                                        lblResponse.setText("Please Fill the Empty brackets");
+                                }
+                                else{
+                                        lblResponse.setText("Form submitted successfully");
+                                }
+                        }
+                });
+                // //making the listener to the window close button
+                // f.addWindowListener(new WindowAdapter() {
+            //         public void windowClosing(WindowEvent e) {
+            //             System.exit(0);
+            //       }
+                // });
+
+
+                f.setVisible(true);
+        }
+}
+
+
+
+
+
+
+2. Develop a program to select multiple language known to the user( marathi english hindi sanskrit ) and also gender of the user
+//   agar sirf language waala aaye toh 
+import java.awt.*;
+import java.applet.*;
+import java.awt.event.*;
+
+
+/* <applet code = "exp2C1" width=500 height=500></applet> */
+
+
+ public class exp2C1 extends Applet implements ItemListener {
+     List list;
+
+
+     public void init() {
+     
+         list = new List(4,true);
+
+
+         list.add("English");
+         list.add("Marathi");
+         list.add("Hindi");
+         list.add("Sanskrit");
+     
+        add(list);
+        list.addItemListener(this);
+         setLayout(new FlowLayout());
+     }
+     public void itemStateChanged(ItemEvent e) {
+         repaint();
+     }
+     public void paint(Graphics g) {
+         int idx[];
+         String msg = "Selected:";
+         idx = list.getSelectedIndexes();
+
+
+         for(int i=0; i<idx.length; i++) {
+             msg += list.getItem(idx[i]) + " ";
+         }
+         g.drawString(msg,6,200);      
+     }
+}
+//For choice
+//     public void paint(Graphics g) {
+//         String msg = "Selected:";
+//         msg += c.getSelectedItem();
+//         g.drawString(msg,6,200);// displays item on applet window }
+
+
+OR 
+import java.awt.*;
+import java.awt.event.*;
+public class JavaExpYug{
+        public static void main(String[]args){ 
+                Frame f = new Frame("Select Language and Gender");
+                f.setSize(500,500);
+                f.setLayout(new GridLayout(2,2));
+                //initialize the components
+                List ltLang = new List(4,true);
+                Label lblSelectedLang = new Label("");
+                ltLang.add("HINDI");
+                ltLang.add("ENGLISH");
+                ltLang.add("MARATHI");
+                ltLang.add("SANSKRIT");
+                f.add(new Label("Select Language : "));
+                f.add(ltLang);
+                f.add(new Label("Selected Languages are : "));
+                f.add(lblSelectedLang);
+
+
+                //initializing the listeners
+                ltLang.addItemListener(new ItemListener(){
+                        @Override
+                        public void itemStateChanged(ItemEvent e){
+                                String data = "";
+                                int arr[] = ltLang.getSelectedIndexes();
+                                for(int i = 0 ; i < arr.length ; i++){
+                                        data = data + " " + ltLang.getItem(arr[i]);
+                                }
+                                lblSelectedLang.setText(data);
+                        }
+                });
+                //initializing the frame listener
+                f.addWindowListener(new WindowAdapter(){
+                        public void windowClosing(WindowEvent e){
+                                System.exit(0);
+                        }
+                });
+                //making the frame visible
+                f.setVisible(true);
+
+
+        }
+}
+
+
+// agar language kai saath gender ka bhi aaya toh 
+
+
+import java.awt.*;
+import java.applet.*;
+import java.awt.event.*;
+
+
+/* <applet code="exp2C1" width=500 height=500></applet> */
+
+
+public class exp2C1 extends Applet implements ItemListener {
+    List list;
+    Choice c;
+    String selectedGender = "";
+
+
+    public void init() {
+        list = new List(4, true);
+        c = new Choice();
+
+
+        list.add("English");
+        list.add("Marathi");
+        list.add("Hindi");
+        list.add("Sanskrit");
+
+
+        c.add("Male");
+        c.add("Female");
+
+
+        add(list);
+        add(c);
+
+
+        list.addItemListener(this);
+        c.addItemListener(this);
+
+
+     //   setLayout(new FlowLayout()); def layout of applet hai yeh so no need to add 
+    }
+
+
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getSource() == c) {
+            selectedGender = c.getSelectedItem();
+        }
+        repaint();
+    }
+
+
+    public void paint(Graphics g) {
+        int idx[];
+        String msg = "Selected: ";
+        idx = list.getSelectedIndexes();
+
+
+        for (int i = 0; i < idx.length; i++) {
+            msg += list.getItem(idx[i]) + " ";
+        }
+
+
+        if (!selectedGender.isEmpty()) {
+            msg += "| Gender: " + selectedGender;
+        }
+
+
+        g.drawString(msg, 6, 200); 
+    }
+}
+
+
+OR
+
+
+import java.awt.*;
+import java.awt.event.*;
+public class JavaExpYug{
+        public static void main(String[]args){ 
+                Frame f = new Frame("Select Language and Gender");
+                f.setSize(500,500);
+                f.setLayout(new GridLayout(4,2));
+                //initialize the components
+                List ltLang = new List(4,true);
+                Choice chGender = new Choice();
+                Label lblSelectedLang = new Label("");
+                Label lblSelectedGender = new Label("");
+                ltLang.add("HINDI");
+                ltLang.add("ENGLISH");
+                ltLang.add("MARATHI");
+                ltLang.add("SANSKRIT");
+                chGender.add("Male");
+                chGender.add("Female");
+                f.add(new Label("Select Language : "));
+                f.add(ltLang);
+                f.add(new Label("Select Gender : "));
+                f.add(chGender);
+                f.add(new Label("Selected Languages are : "));
+                f.add(lblSelectedLang);
+                f.add(new Label("Selected Gender is : "));
+                f.add(lblSelectedGender);
+
+
+                ltLang.addItemListener(new ItemListener(){
+                        @Override
+                        public void itemStateChanged(ItemEvent e){
+                                String data = "";
+                                int arr[] = ltLang.getSelectedIndexes();
+                                for(int i = 0 ; i < arr.length ; i++){
+                                        data = data + " " + ltLang.getItem(arr[i]);
+                                }
+                                lblSelectedLang.setText(data);
+                        }
+                });
+
+
+                chGender.addItemListener(new ItemListener(){
+                        @Override
+                        public void itemStateChanged(ItemEvent e){
+                                String data = chGender.getSelectedItem();
+                                lblSelectedGender.setText(data);
+                        }
+                });
+                f.addWindowListener(new WindowAdapter(){
+                        public void windowClosing(WindowEvent e){
+                                System.exit(0);
+                        }
+                });
+                //making the frame visible
+                f.setVisible(true);
+
+
+        }
+}
+3. Develop an applet application to select multiple newspaper name by using List
+(same as 2)
+import java.applet.*;
+import java.awt.event.*;
+import java.awt.*;
+// <applet code="JavaExpYug" height="500" width="500"></applet>
+public class JavaExpYug extends Applet{
+        public void init(){
+           setLayout(new GridLayout(2,2));
+           List lsNews = new List(4,true);
+           lsNews.add("Times Of India");
+           lsNews.add("Navbharat Times");
+           lsNews.add("Bhaskar Dainik");
+           lsNews.add("Dainik Shiksha");
+           Label lblSelected = new Label();
+           add(new Label("Select News Paper : "));
+           add(lsNews);
+           add(new Label("Select Papers are : "));
+           add(lblSelected);
+           lsNews.addItemListener(new ItemListener(){
+                   @Override
+                   public void itemStateChanged(ItemEvent e){
+                           String data = "";
+                           int arr[] = lsNews.getSelectedIndexes();
+                           for(int i = 0 ; i < arr.length ; i++){
+                                   data = data + " " + lsNews.getItem(arr[i]);
+                           }
+                           lblSelected.setText(data);
+                   }
+           });
+        }
+}
+
+
+4. Develop a applet program using the List component to add the name of 10 cities
+import java.applet.*;
+import java.awt.event.*;
+import java.awt.*;
+// <applet code="JavaExpYug" height="500" width="500"></applet>
+public class JavaExpYug extends Applet{
+        public void init(){
+           setLayout(new GridLayout(2,2));
+           List lsCities = new List(10,true);
+           lsCities.add("Mumbai");
+           lsCities.add("Pune");
+           lsCities.add("Panjim");
+           lsCities.add("Chennai");
+           lsCities.add("Bengluru");
+           lsCities.add("Kochi");
+           lsCities.add("Delhi");
+           lsCities.add("Bhopal");
+           lsCities.add("Gandhinagar");
+           lsCities.add("Ahemdabad");
+           Label lblSelected = new Label();
+           add(new Label("Select Cities : "));
+           add(lsCities);
+           add(new Label("Select Cities are : "));
+           add(lblSelected);
+           lsCities.addItemListener(new ItemListener(){
+                   @Override
+                   public void itemStateChanged(ItemEvent e){
+                           String data = "";
+                           int arr[] = lsCities.getSelectedIndexes();
+                           for(int i = 0 ; i < arr.length ; i++){
+                                   data = data + " " + lsCities.getItem(arr[i]);
+                           }
+                           lblSelected.setText(data);
+                   }
+           });
+        }
+}
+
+
+5. Wap to demonstrate the use of border layout use the border Layout and use all consntants(north south east west centr)
+
+
+import java.applet.*;
+import java.awt.*;
+import java.awt.event.*;
+
+
+//<applet code="JavaExpYug" height="500" width="500"></applet>
+public class JavaExpYug extends Applet {
+    public void init() {
+        setLayout(new BorderLayout());
+
+
+        // Create five buttons for different regions of the BorderLayout
+        Button btnNorth = new Button("NORTH");
+        Button btnWest = new Button("WEST");
+        Button btnEast = new Button("EAST");
+        Button btnSouth = new Button("SOUTH");
+        Button btnCenter = new Button("CENTER");
+
+
+        // Add each button to the appropriate region of the BorderLayout
+        add(btnNorth, BorderLayout.NORTH);  // Add the North button to the top
+        add(btnEast, BorderLayout.EAST);    // Add the East button to the right
+        add(btnWest, BorderLayout.WEST);    // Add the West button to the left
+        add(btnSouth, BorderLayout.SOUTH);  // Add the South button to the bottom
+        add(btnCenter, BorderLayout.CENTER); // Add the Center button to the center
+    }
+
+
+    @Override
+    public Insets getInsets() {
+        // Override the getInsets() method to add custom padding around the applet
+        return new Insets(10, 10, 10, 10);  // 10px padding on all sides (top, left, bottom, right)
+    }
+}
+
+
+
+
+
+
+6. WAP to create a grid using the gridlayouot with rows and columns and add button and label to the grids
+import java.applet.*;
+import java.awt.event.*;
+import java.awt.*;
+// <applet code="JavaExpYug" height="500" width="500"></applet>
+public class JavaExpYug extends Applet{
+        public void init(){
+           setLayout(new GridLayout(5,2));
+           for(int i=1;i<=5;i++){
+                   for(int j=1;j<=2;j++){
+                           if(j==2){
+                                   String str = "This is Button "+i;
+                                   add(new Button(str));
+                           }
+                           else{
+                                   String str = "This is Label "+i;
+                                   add(new Label(str));
+                           }
+                   }
+           }
+        }
+}
+
+
+7. WAP that create a menu of different color and disables the menuItem from black color
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class JavaExpYug {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Color Menu Example");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JMenuBar menuBar = new JMenuBar();
+        JMenu colorMenu = new JMenu("Colors");
+        JMenuItem redItem = new JMenuItem("Red");
+        JMenuItem greenItem = new JMenuItem("Green");
+        JMenuItem blueItem = new JMenuItem("Blue");
+        JMenuItem blackItem = new JMenuItem("Black");
+        blackItem.setEnabled(false);
+
+
+        redItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().setBackground(Color.RED);
+            }
+        });
+        greenItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().setBackground(Color.GREEN);
+            }
+        });
+        blueItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().setBackground(Color.BLUE);
+            }
+        });
+        blackItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().setBackground(Color.BLACK);
+            }
+        });
+        colorMenu.add(redItem);
+        colorMenu.add(greenItem);
+        colorMenu.add(blueItem);
+        colorMenu.add(blackItem);
+        menuBar.add(colorMenu);
+        frame.setJMenuBar(menuBar);
+        frame.setVisible(true);
+    }
+}
+
+
+8. WAP to perform addition of two numbers using event handling
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+
+public class JavaExpYug {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Addition");
+        f.setSize(400, 400);
+        f.setLayout(new GridLayout(3, 2));
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+        JTextField jtfNum1 = new JTextField();
+        JTextField jtfNum2 = new JTextField();
+        JButton btnSubmit = new JButton("Submit");
+        JLabel lblResult = new JLabel("");
+
+
+        f.add(new JLabel("Enter number one: "));
+        f.add(jtfNum1);
+        f.add(new JLabel("Enter number two: "));
+        f.add(jtfNum2);
+        f.add(btnSubmit);
+        f.add(lblResult);
+
+
+        btnSubmit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input1 = jtfNum1.getText().trim();
+                String input2 = jtfNum2.getText().trim();
+
+
+                // Validate inputs
+                if (input1.isEmpty() || input2.isEmpty()) {
+                    lblResult.setText("Error: Both fields must be filled.");
+                    return;
+                }
+
+
+                try {
+                    int a = Integer.parseInt(input1);
+                    int b = Integer.parseInt(input2);
+                    String ans = a + b + "";
+                    lblResult.setText("Result: " + ans);
+                } catch (NumberFormatException ex) {
+                    lblResult.setText("Error: Please enter valid numeric values.");
+                }
+            }
+        });
+
+
+        f.setVisible(true);
+    }
+}
+
+
+9. Wap to show the menubar on the applet window
+        import java.awt.event.*;
+import java.awt.*;
+import java.applet.*;
+//<applet code="JavaExpYug" height="500" width="500"></applet>
+public class JavaExpYug extends Applet{
+        public void init(){
+                // Frame f = new Frame("MenuBar");
+                // f.setSize(500,500);
+                MenuBar mb = new MenuBar();
+                Menu m = new Menu("MENU");
+                MenuItem mi1 = new MenuItem("MENU ITEM");
+                MenuItem mi2 = new MenuItem("MENU ITEM");
+                MenuItem mi3 = new MenuItem("MENU ITEM");
+                m.add(mi1);
+                m.add(mi2);
+                m.add(mi3);
+                mb.add(m);
+                Frame frame = (Frame) this.getParent().getParent(); // Get parent Frame
+        frame.setMenuBar(mb);        
+        }
+}
+10. Wap to display the JcomboBox in an applet
+import javax.swing.*;
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+public class Nishi extends Applet{
+    public void init() {
+
+
+
+
+        setLayout(new GridLayout(4,2));
+        String fruits[] = {"Select Fruit", "Apple", "Banana", "Orange", "Mango", "Grapes"};
+        String vegetables[] = {"Select Vegetable", "Carrot", "Broccoli", "Spinach", "Potato", "Tomato"};
+        
+
+
+        JComboBox fruitComboBox = new JComboBox(fruits);
+        JComboBox vegetableComboBox = new JComboBox(vegetables);
+        vegetableComboBox.setEditable(true);
+        
+       
+        
+        add(new JLabel("Choose your favorite fruit:"));
+        add(fruitComboBox);
+        add(new JLabel("Choose your favorite vegetable:"));
+        add(vegetableComboBox);
+
+
+        JLabel selectedVegLabel = new JLabel("Selected Vegetable: None");
+        add(selectedVegLabel);
+
+
+        JLabel selectedFruitLabel = new JLabel("Selected Fruit: None");
+        add(selectedFruitLabel);
+
+
+        fruitComboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedFruit = (String)fruitComboBox.getSelectedItem();
+                selectedFruitLabel.setText("Selected Vegetable: " + selectedFruit);
+
+
+            }
+        });
+
+
+    
+        vegetableComboBox.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        String selectedVegetable = (String)vegetableComboBox.getSelectedItem();
+                        selectedVegLabel.setText("Selected Vegetable: " + selectedVegetable);
+                    }
+        });
+    }
+}
+/*
+<applet code="Nishi" width="400" height="250"></applet>
+*/
+
+
+
+
+11. Create a simple stopwatch application using JLabel to display time in seconds, and JButton for start, stop, and reset. Use a Timer to update the time every second and allow the user to start,stop, and reset the stopwatch with the corresponding buttons.
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+
+public class JavaExpYug {
+    private static int seconds = 0;
+    private static Timer timer;
+    public static void main(String[] args) {
+        // Create the JFrame
+        JFrame frame = new JFrame("Stopwatch");
+        frame.setSize(300, 150);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+
+        // JLabel to display time
+        JLabel timeLabel = new JLabel("Time: 0 seconds", JLabel.CENTER);
+        frame.add(timeLabel, BorderLayout.CENTER);
+
+
+        // JPanel for buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+
+
+        // Create Buttons
+        JButton startButton = new JButton("Start");
+        JButton stopButton = new JButton("Stop");
+        JButton resetButton = new JButton("Reset");
+
+
+        buttonPanel.add(startButton);
+        buttonPanel.add(stopButton);
+        buttonPanel.add(resetButton);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+
+        // Timer to update the time every second
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                seconds++;
+                timeLabel.setText("Time: " + seconds + " seconds");
+            }
+        });
+
+
+        // Start button action
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timer.start();
+            }
+        });
+
+
+        // Stop button action
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timer.stop();
+            }
+        });
+
+
+        // Reset button action
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timer.stop();
+                seconds = 0;
+                timeLabel.setText("Time: 0 seconds");
+            }
+        });
+
+
+        // Make the frame visible
+        frame.setVisible(true);
+    }
+}
+
+
+12. Write a Jtree program to show root directory and its subFolders of your System. 
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.io.File;
+
+
+class Question_12 extends JFrame {
+    Question_12() {
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root Directory");
+        File[] drives = File.listRoots();
+        for (File drive : drives) {
+            DefaultMutableTreeNode driveNode = new DefaultMutableTreeNode(drive.getPath());
+            root.add(driveNode);
+            File[] files = drive.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        driveNode.add(new DefaultMutableTreeNode(file.getName()));
+                    }
+                }
+            }
+        }
+        JTree tree = new JTree(root);
+        add(new JScrollPane(tree));
+        setSize(500, 500);
+        setVisible(true);
+    }
+
+
+    public static void main(String[] args) {
+        new Question_12();
+    }
+}
+
+
+13. Write a program to create a table of name of student, percentage and grade of 10 students using JTable. 
+
+
+import javax.swing.*;
+import java.awt.*;
+
+
+class Question_12 extends JFrame {
+    Question_12() {
+        String[] columnNames = {"Student Name", "Percentage", "Grade"};
+        Object[][] data = {
+            {"John", 85, "A"},
+            {"Sara", 90, "A+"},
+            {"Tom", 78, "B+"},
+            {"Emma", 92, "A+"},
+            {"David", 80, "B"},
+            {"Sophia", 88, "A"},
+            {"James", 76, "B"},
+            {"Isabella", 95, "A+"},
+            {"Liam", 82, "B+"},
+            {"Mia", 87, "A"}
+        };
+        
+        JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        
+        add(scrollPane, BorderLayout.CENTER);
+        setSize(500, 300);
+        setVisible(true);
+    }
+
+
+    public static void main(String[] args) {
+        new Question_12();
+    }
+}
+
+
+14. Develop a Program to display the key pressed, key typed and key released event on Applet Window.
+
+
+import java.awt.*;
+import java.applet.Applet;
+import java.awt.event.*;
+
+
+public class Question_12 extends Applet implements KeyListener {
+    String keyPressed = "", keyTyped = "", keyReleased = "";
+    public void init() {
+        addKeyListener(this);
+        setFocusable(true);
+    }
+    public void paint(Graphics g) {
+        g.drawString("Key Pressed: " + keyPressed, 20, 40);
+        g.drawString("Key Typed: " + keyTyped, 20, 60);
+        g.drawString("Key Released: " + keyReleased, 20, 80);
+    }
+    public void keyPressed(KeyEvent e) {
+        keyPressed = "Key Pressed: " + e.getKeyChar();
+        repaint();
+    }
+    public void keyTyped(KeyEvent e) {
+        keyTyped = "Key Typed: " + e.getKeyChar();
+        repaint();
+    }
+    public void keyReleased(KeyEvent e) {
+        keyReleased = "Key Released: " + e.getKeyChar();
+        repaint();
+    }
+}
+
+
+/*
+<applet code="Question_12" width="400" height="200"></applet>
+
+
+*/
+
+
+15. Develop a program to accept two numbers and display product of two numbers when user presses “Multiply” button.16. 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+public class Exp15{
+    public static void main(String[] args) {
+        // Create the main frame
+        JFrame frame = new JFrame("Multiplication Program");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+
+        // Set GridLayout with 3 rows and 2 columns
+        frame.setLayout(new GridLayout(3, 2, 10, 10));
+
+
+        // Create components
+        JLabel label1 = new JLabel("Enter First Number:");
+        JLabel label2 = new JLabel("Enter Second Number:");
+        JTextField textField1 = new JTextField();
+        JTextField textField2 = new JTextField();
+        JButton multiplyButton = new JButton("Multiply");
+        JLabel resultLabel = new JLabel("Result: ");
+
+
+        // Add components to the frame
+        frame.add(label1);
+        frame.add(textField1);
+        frame.add(label2);
+        frame.add(textField2);
+        frame.add(multiplyButton);
+        frame.add(resultLabel);
+
+
+        // Add action listener to the button
+        multiplyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // Get numbers from text fields
+                    float num1 = Float.parseFloat(textField1.getText());
+                    float num2 = Float.parseFloat(textField2.getText());
+                    float product = num1 * num2;
+
+
+                    // Display the result
+                    resultLabel.setText("Result: " + product);
+                } catch (NumberFormatException ex) {
+                    // Handle invalid input
+                    resultLabel.setText("Please enter valid numbers.");
+                }
+            }
+        });
+
+
+        // Make the frame visible
+        frame.setVisible(true);
+    }
+}
+
+
+
+
+
+
+16. Write a program using JPasswordField and JTextField to demonstrate the use of user authentication.
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+public class Exp16 {
+    public static void main(String[] args) {
+        // Create a frame
+        JFrame frame = new JFrame("User Authentication");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(350, 200);
+        frame.setLayout(new GridLayout(3, 2, 10, 10));
+
+
+        // Create components
+        JLabel usernameLabel = new JLabel("Username:");
+        JTextField usernameField = new JTextField();
+        JLabel passwordLabel = new JLabel("Password:");
+        JPasswordField passwordField = new JPasswordField();
+        JButton loginButton = new JButton("Login");
+        JLabel statusLabel = new JLabel(" ", JLabel.CENTER);
+
+
+        // Add components to the frame
+        frame.add(usernameLabel);
+        frame.add(usernameField);
+        frame.add(passwordLabel);
+        frame.add(passwordField);
+        frame.add(loginButton);
+        frame.add(statusLabel);
+
+
+        // Add action listener to the login button
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Hardcoded credentials for demonstration
+                String correctUsername = "admin";
+                String correctPassword = "password";
+
+
+                // Get user input
+                String enteredUsername = usernameField.getText();
+                String enteredPassword = new String(passwordField.getPassword());
+
+
+                // Perform authentication
+                if (enteredUsername.equals(correctUsername) && enteredPassword.equals(correctPassword)) {
+                    statusLabel.setText("Login Successful!");
+                    statusLabel.setForeground(Color.GREEN);
+                } else {
+                    statusLabel.setText("Invalid Credentials!");
+                    statusLabel.setForeground(Color.RED);
+                }
+            }
+        });
+
+
+        // Make the frame visible
+        frame.setVisible(true);
+    }
+}
+ 
+
+
+17. Write a program to count the number of clicks performed by the user in a frame. 
+import java.awt.*;
+import java.awt.event.*;
+
+
+public class Question_17 {
+    public static void main(String[] args) {
+        Frame frame = new Frame("Click Counter");
+        Label label = new Label("0");
+        Button button = new Button("Click Me");
+
+
+        // Add ActionListener using an anonymous inner class
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int currentCount = Integer.parseInt(label.getText());
+                label.setText(String.valueOf(currentCount + 1));
+            }
+        });
+
+
+        frame.setLayout(new FlowLayout());
+        frame.add(button);
+        frame.add(label);
+        frame.setSize(200, 100);
+        frame.setVisible(true);
+
+
+        // Add WindowListener to handle closing
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                System.exit(0);
+            }
+        });
+    }
+}
+
+
+18. Develop a program using InetAddress class to retrieve IP address of computer when hostname is entered by the user. 
+
+
+import java.net.*;
+import java.util.Scanner;
+
+
+public class Exp18 {
+    public static void main(String[] args) {
+        // Create a scanner for user input
+        Scanner scanner = new Scanner(System.in);
+
+
+        // Prompt the user to enter a hostname
+        System.out.print("Enter hostname: ");
+        String hostname = scanner.nextLine();
+
+
+        try {
+            // Get the InetAddress object for the entered hostname
+            InetAddress inetAddress = InetAddress.getByName(hostname);
+
+
+            // Retrieve the IP address and print it
+            System.out.println("IP Address of " + hostname + ": " + inetAddress.getHostAddress());
+        } catch (UnknownHostException e) {
+            // Handle exception if the hostname is not found
+            System.out.println("Error: Unable to find the IP address for the given hostname.");
+        }
+    }
+}
+
+
+
+
+19. Write a program using URL class to retrieve the host, protocol, port and the file of URL http:/www.msbte.org.in 
+
+
+import java.net.*;
+
+
+public class Exp19{
+    public static void main(String[] args) {
+        try {
+            // Create a URL object
+            URL url = new URL("http://www.msbte.org.in");
+
+
+            // Retrieve and display different parts of the URL
+            System.out.println("Protocol: " + url.getProtocol());
+            System.out.println("Host: " + url.getHost());
+            System.out.println("Port: " + url.getPort());  // Returns -1 if no port is specified
+            System.out.println("File: " + url.getFile());
+
+
+        } catch (MalformedURLException e) {
+            // Handle exception if URL is invalid
+            System.out.println("Invalid URL.");
+        }}}
+20.
+import java.sql.*;
+import java.util.Scanner;
+public class A {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/college";
+        String user = "root";
+        String password = "";
+        try (
+            Connection conn = DriverManager.getConnection(url, user, password);
+            Statement stmt = conn.createStatement()) {
+            String createTableSQL = "CREATE TABLE STUD ("
+                    + "id INT PRIMARY KEY, "
+                    + "name VARCHAR(100), "
+                    + "dept VARCHAR(100),"
+                    + "percentage FLOAT(4))";
+            stmt.execute(createTableSQL);
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Enter Student ID: ");
+            int id = Integer.parseInt(scan.nextLine());
+            System.out.println("Enter Student Name: ");
+            String name = scan.next();
+            name = "'" + name + "'";  
+            System.out.println("Enter Student Dept: ");
+            String dept = scan.next();
+            dept = "'" + dept + "'";  
+            System.out.println("Enter Student Percentage: ");
+            float perc  = scan.nextFloat();
+            String insertSQL = "INSERT INTO STUD VALUES (" + id + "," + name + "," + dept + "," +perc + ")";
+            stmt.executeUpdate(insertSQL);
+            System.out.println("Student table created and record inserted.");
+            scan.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+/* TO RUN THIS:
+javac -cp "C:\Program Files\Java\jdk1.8.0_202\jre\lib\mysql-connector-j-8.4.0.jar" A.java
+
+
+java A
+*/
+ 
+
+
+21. Write servlet program to send username and password using HTML forms and authenticate the user.
+
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+
+
+public class LoginServlet extends HttpServlet {
+    
+    // Hardcoded username and password for demo purposes
+    private String validUsername = "admin";
+    private String validPassword = "password123";
+
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Get username and password from the form
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+
+        // Set the content type to HTML
+        response.setContentType("text/html");
+
+
+        // Get the output stream to send a response to the client
+        PrintWriter out = response.getWriter();
+        
+        // Check if the username and password match the valid credentials
+        if (validUsername.equals(username) && validPassword.equals(password)) {
+            out.println("<html><body>");
+            out.println("<h2>Login Successful</h2>");
+            out.println("<p>Welcome, " + username + "!</p>");
+            out.println("</body></html>");
+        } else {
+            out.println("<html><body>");
+            out.println("<h2>Login Failed</h2>");
+            out.println("<p>Invalid username or password.</p>");
+            out.println("</body></html>");
+        }
+    }
+}
+
+
+Login.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+</head>
+<body>
+    <h2>Login Form</h2>
+    <form action="LoginServlet" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br><br>
+        
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+
+
+web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>LoginServlet</servlet-class>
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+</web-app>
+    
+
+
+
+
+/webapps/Manuals/
+├── login.html
+├── WEB-INF/
+    ├── classes/
+                └── LoginServlet.class
+    ├── lib/
+        └── mysql-connector-java.jar
+    └── web.xml
+
+
+
+
+http://localhost:8080/Manuals/login.html
+
+
+22. Write a program to demonstrate session tracking using cookies (Store username and email where email will be value) 
+
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+
+
+public class CookieSessionServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+
+        Cookie[] cookies = request.getCookies();
+        String username = null;
+        String email = null;
+
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                } else if (cookie.getName().equals("email")) {
+                    email = cookie.getValue();
+                }
+            }
+        }
+
+
+        if (username == null || email == null) {
+            out.println("<form method='post'>");
+            out.println("Username: <input type='text' name='username'><br>");
+            out.println("Email: <input type='text' name='email'><br>");
+            out.println("<input type='submit' value='Submit'>");
+            out.println("</form>");
+        } else {
+            out.println("<h3>Welcome back, " + username + "!</h3>");
+            out.println("<h4>Your email: " + email + "</h4>");
+        }
+    }
+
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String email = request.getParameter("email");
+
+
+        response.addCookie(new Cookie("username", username));
+        response.addCookie(new Cookie("email", email));
+
+
+        response.sendRedirect("CookieSessionServlet");
+    }
+}
+web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>LoginServlet</servlet-class>
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+</web-app>
+    
+22/
+├── WEB-INF/
+│   ├── web.xml
+│   └── classes/
+│       └── CookieSessionServlet.class  <-- The compiled servlet class
+
+
+
+
+http://localhost:8080/22/CookieSessionServlet
+
+
+23. Develop a program to display the name and roll_no of students from studenttable having percentage > 70
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
+public class Exp23 {
+
+
+    public static void main(String[] args) {
+        // Database connection details for MySQL
+        String url = "jdbc:mysql://localhost:3306/StudentDB"; // Replace with your database name
+        String username = "root"; // MySQL username
+        String password = ""; // MySQL password (empty by default for XAMPP)
+
+
+        // SQL queries to create the table, insert data, and select students with percentage > 70
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS studenttable (" +
+                                "id INT(11) AUTO_INCREMENT PRIMARY KEY, " +
+                                "name VARCHAR(100) NOT NULL, " +
+                                "roll_no INT(11) NOT NULL, " +
+                                "percentage FLOAT NOT NULL);";
+        
+        String insertSQL1 = "INSERT INTO studenttable (name, roll_no, percentage) VALUES ('John Doe', 101, 75.5);";
+        String insertSQL2 = "INSERT INTO studenttable (name, roll_no, percentage) VALUES ('Jane Smith', 102, 85.0);";
+        String insertSQL3 = "INSERT INTO studenttable (name, roll_no, percentage) VALUES ('Alice Brown', 103, 65.0);";
+        String insertSQL4 = "INSERT INTO studenttable (name, roll_no, percentage) VALUES ('Bob White', 104, 80.0);";
+        
+        String selectSQL = "SELECT name, roll_no FROM studenttable WHERE percentage > 70";
+
+
+        try {
+            // Load the MySQL JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+
+            // Establish a connection to the database
+            Connection conn = DriverManager.getConnection(url, username, password);
+            Statement stmt = conn.createStatement();
+
+
+            // Create the table if it does not exist
+            stmt.executeUpdate(createTableSQL);
+            System.out.println("Table 'studenttable' created (if not already existing) successfully!");
+
+
+            // Insert some sample records into the table
+            stmt.executeUpdate(insertSQL1);
+            stmt.executeUpdate(insertSQL2);
+            stmt.executeUpdate(insertSQL3);
+            stmt.executeUpdate(insertSQL4);
+            System.out.println("Sample records inserted successfully!");
+
+
+            // Execute the select query to fetch students with percentage > 70
+            ResultSet rs = stmt.executeQuery(selectSQL);
+
+
+            // Display the result in a tabular format
+            System.out.println("\nStudents with percentage > 70:");
+            System.out.println("Name         | Roll No");
+            System.out.println("------------------------");
+
+
+            while (rs.next()) {
+                // Retrieve the values from the result set
+                String name = rs.getString("name");
+                int rollNo = rs.getInt("roll_no");
+
+
+                // Print the results
+                System.out.printf("%-12s | %-6d\n", name, rollNo);
+            }
+
+
+            // Close the connection
+            conn.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+
+
+
+
+24. Develop a program to update name of student from Jack to David
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
+public class Exp24 {
+
+
+    public static void main(String[] args) {
+        // Database connection details
+        String url = "jdbc:mysql://localhost:3306/StudentDB"; // Replace with your database name
+        String username = "root"; // Default username for XAMPP
+        String password = ""; // Default password for XAMPP
+
+
+        // SQL queries
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS students_info (" +
+                                "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                                "name VARCHAR(100) NOT NULL, " +
+                                "roll_no INT NOT NULL UNIQUE)";
+
+
+        String insertSQL1 = "INSERT INTO students_info (name, roll_no) VALUES ('Jack', 1)";
+        String insertSQL2 = "INSERT INTO students_info (name, roll_no) VALUES ('Alice', 2)";
+        String updateSQL = "UPDATE students_info SET name = 'David' WHERE name = 'Jack'";
+        String selectSQL = "SELECT id, name, roll_no FROM students_info";
+
+
+        try {
+            // Establish a connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            Statement stmt = conn.createStatement();
+
+
+            // Create table
+            stmt.executeUpdate(createTableSQL);
+            System.out.println("Table 'students_info' created successfully!");
+
+
+            // Insert records
+            stmt.executeUpdate(insertSQL1);
+            stmt.executeUpdate(insertSQL2);
+            System.out.println("Records inserted successfully!");
+
+
+            // Update the name "Jack" to "David"
+            int rowsUpdated = stmt.executeUpdate(updateSQL);
+            if (rowsUpdated > 0) {
+                System.out.println("Record updated successfully!");
+            } else {
+                System.out.println("No matching record found to update!");
+            }
+
+
+            // Retrieve and display records
+            ResultSet rs = stmt.executeQuery(selectSQL);
+            System.out.println("\nRecords in the 'students_info' table:");
+            System.out.println("ID | Name       | Roll No");
+            System.out.println("---------------------------");
+
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                int rollNo = rs.getInt("roll_no");
+
+
+                System.out.printf("%d | %-10s | %-7d\n", id, name, rollNo);
+            }
+
+
+            // Close the connection
+            conn.close();
+
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+
+
+
+
+
+
+25. Develop JDBC program to retrieve data using ResultSet
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+
+public class Exp25 {
+
+
+    public static void main(String[] args) {
+        // Database connection details
+        String url = "jdbc:mysql://localhost:3306/StudentDB"; // Replace with your database name
+        String username = "root"; // MySQL default username
+        String password = "";     // MySQL default password (empty for XAMPP)
+
+
+        // SQL to create EmployeeTable
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS EmployeeTable (" +
+                                "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                                "name VARCHAR(100) NOT NULL, " +
+                                "position VARCHAR(100) NOT NULL, " +
+                                "salary FLOAT NOT NULL);";
+
+
+        // SQL to insert sample records into EmployeeTable
+        String insertSQL = "INSERT INTO EmployeeTable (name, position, salary) VALUES " +
+                           "('Alice', 'Manager', 75000.0), " +
+                           "('Bob', 'Developer', 55000.0), " +
+                           "('Charlie', 'Designer', 60000.0);";
+
+
+        // SQL to retrieve data from EmployeeTable
+        String selectSQL = "SELECT * FROM EmployeeTable";
+
+
+        try {
+            // Load the MySQL JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+
+            // Establish a connection to the database
+            Connection conn = DriverManager.getConnection(url, username, password);
+            Statement stmt = conn.createStatement();
+
+
+            // Create the EmployeeTable if it doesn't exist
+            stmt.executeUpdate(createTableSQL);
+            System.out.println("Table 'EmployeeTable' created successfully!");
+
+
+            // Insert sample records into EmployeeTable
+            stmt.executeUpdate(insertSQL);
+            System.out.println("Sample records inserted successfully!");
+
+
+            // Retrieve and display records from EmployeeTable
+            ResultSet rs = stmt.executeQuery(selectSQL);
+            System.out.println("\nRecords in the EmployeeTable:");
+            System.out.println("ID | Name       | Position     | Salary");
+            System.out.println("--------------------------------------------");
+
+
+            while (rs.next()) {
+                // Retrieve values from the ResultSet
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String position = rs.getString("position");
+                float salary = rs.getFloat("salary");
+
+
+                // Print the results
+                System.out.printf("%d | %-10s | %-12s | %.2f\n", id, name, position, salary);
+            }
+
+
+            // Close the connection
+            conn.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Error: " + e.getMessage()); }}}
+ 26. Develop a program to delete all records for a product whose price > 500 and id is A003.
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
+public class Exp26 {
+
+
+    public static void main(String[] args) {
+        // Database connection details
+        String url = "jdbc:mysql://localhost:3306/StudentDB"; // Replace with your database name
+        String username = "root"; // Default username for XAMPP
+        String password = ""; // Default password for XAMPP
+
+
+        // SQL queries
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS product_info (" +
+                                "id VARCHAR(10) NOT NULL, " +
+                                "name VARCHAR(100) NOT NULL, " +
+                                "price FLOAT NOT NULL)";
+        
+        String insertSQL1 = "INSERT INTO product_info (id, name, price) VALUES ('A001', 'Product1', 300)";
+        String insertSQL2 = "INSERT INTO product_info (id, name, price) VALUES ('A002', 'Product2', 400)";
+        String insertSQL3 = "INSERT INTO product_info (id, name, price) VALUES ('A003', 'Product3', 600)";
+        String insertSQL4 = "INSERT INTO product_info (id, name, price) VALUES ('A003', 'Product4', 700)";
+
+
+        String deleteSQL = "DELETE FROM product_info WHERE price > 500 AND id = 'A003'";
+        String selectSQL = "SELECT id, name, price FROM product_info";
+
+
+        try {
+            // Establish a connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            Statement stmt = conn.createStatement();
+
+
+            // Create table
+            stmt.executeUpdate(createTableSQL);
+            System.out.println("Table 'product_info' created successfully!");
+
+
+            // Insert records
+            stmt.executeUpdate(insertSQL1);
+            stmt.executeUpdate(insertSQL2);
+            stmt.executeUpdate(insertSQL3);
+            stmt.executeUpdate(insertSQL4);
+            System.out.println("Records inserted successfully!");
+
+
+            // Delete records where price > 500 and id = 'A003'
+            int rowsDeleted = stmt.executeUpdate(deleteSQL);
+            System.out.println(rowsDeleted + " record(s) deleted successfully!");
+
+
+            // Retrieve and display records
+            ResultSet rs = stmt.executeQuery(selectSQL);
+            System.out.println("\nRemaining records in 'product_info':");
+            System.out.println("ID   | Name       | Price");
+            System.out.println("--------------------------");
+
+
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                float price = rs.getFloat("price");
+
+
+                System.out.printf("%-4s | %-10s | %-6.2f\n", id, name, price);
+            }
+
+
+            // Close the connection
+            conn.close();
+
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+
+
+
+
+
+
+27. Develop a program to receive the parameter through HTML forms and send back received parameter to Browser
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+
+public class Exp27 extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve the parameter from the form
+        String username = request.getParameter("username");
+
+
+        // Set the response content type
+        response.setContentType("text/html");
+
+
+        // Get the print writer to write the response
+        PrintWriter out = response.getWriter();
+
+
+        // Send back the received parameter to the browser
+        out.println("<html><body>");
+        out.println("<h2>Hello, " + username + "!</h2>");
+        out.println("<p>You have successfully submitted your name.</p>");
+        out.println("</body></html>");
+    }
+}
+
+
+
+
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+</head>
+<body>
+    <h2>Enter your name</h2>
+    <form action="Exp27" method="POST">
+        <label for="username">Name:</label>
+        <input type="text" id="username" name="username" required>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+
+web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+
+
+    <servlet>
+        <servlet-name>Exp27</servlet-name>
+        <servlet-class>Exp27</servlet-class> <!-- Use the exact class name here -->
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>Exp27</servlet-name>
+        <url-pattern>/Exp27</url-pattern>
+    </servlet-mapping>
+</web-app>
+
+
+
+
+webapps/
+└───27/
+    ├── index.html                  <-- Your HTML form file
+    ├── WEB-INF/
+    │   ├── classes/                <-- Compiled servlet classes here
+    │   │   └── Exp27.class         <-- Compiled servlet class
+    │   ├── web.xml                  <-- Your servlet configuration file
+
+
+
+
+http://localhost:8080/27/index.html
+
+
+28. Develop a program to send username to server and server will send length of username to client.
+
+
+Server Side
+import java.io.*;
+import java.net.*;
+
+
+public class Server28 {
+    public static void main(String[] args) {
+        try {
+            // Create a server socket that listens on port 5000
+            ServerSocket serverSocket = new ServerSocket(5000);
+            System.out.println("Server is listening on port 5000...");
+
+
+            // Wait for a client connection
+            Socket socket = serverSocket.accept();
+            System.out.println("Client connected!");
+
+
+            // Set up input and output streams
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+
+            // Read the username from the client
+            String username = in.readLine();
+            System.out.println("Received username: " + username);
+
+
+            // Calculate the length of the username
+            int length = username.length();
+
+
+            // Send the length back to the client
+            out.println(length);
+            System.out.println("Sent length back to client: " + length);
+
+
+            // Close the connections
+            in.close();
+            out.close();
+            socket.close();
+            serverSocket.close();
+        } catch (IOException e) {
+            System.out.println("Server error: " + e.getMessage());
+        }
+    }
+}
+
+
+Client Side
+import java.io.*;
+import java.net.*;
+
+
+public class Client28 {
+    public static void main(String[] args) {
+        try {
+            // Connect to the server on localhost at port 5000
+            Socket socket = new Socket("localhost", 5000);
+            System.out.println("Connected to the server!");
+
+
+            // Set up input and output streams
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+
+            // Read the username from the user
+            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Enter your username: ");
+            String username = userInput.readLine();
+
+
+            // Send the username to the server
+            out.println(username);
+
+
+            // Receive the length from the server
+            String response = in.readLine();
+            System.out.println("Length of your username: " + response);
+
+
+            // Close the connections
+            in.close();
+            out.close();
+            socket.close();
+        } catch (IOException e) {
+            System.out.println("Client error: " + e.getMessage());
+        }
+    }
+}
+
+
+
+
+29. Develop Servlet program to retrieve data from List and RadioButton using HTML forms.
+
+
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+
+public class Exp29 extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve data from the HTML form
+        String option = request.getParameter("option");
+        String preference = request.getParameter("preference");
+
+
+        // Set the response content type
+        response.setContentType("text/html");
+
+
+        // Output the received data to the browser
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h2>Form Submission Results</h2>");
+        out.println("<p>Selected Option: " + option + "</p>");
+        out.println("<p>Selected Preference: " + preference + "</p>");
+        out.println("</body></html>");
+    }
+}
+
+
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+</head>
+<body>
+    <h2>Choose Your Preferences</h2>
+    <form action="Exp29" method="POST">
+        <!-- Dropdown List -->
+        <label for="option">Select an option:</label>
+        <select id="option" name="option">
+            <option value="Option1">Option 1</option>
+            <option value="Option2">Option 2</option>
+            <option value="Option3">Option 3</option>
+        </select>
+        <br><br>
+        
+        <!-- Radio Buttons -->
+        <p>Select your preference:</p>
+        <input type="radio" id="choice1" name="preference" value="Choice 1">
+        <label for="choice1">Choice 1</label><br>
+        
+        <input type="radio" id="choice2" name="preference" value="Choice 2">
+        <label for="choice2">Choice 2</label><br>
+        
+        <input type="radio" id="choice3" name="preference" value="Choice 3">
+        <label for="choice3">Choice 3</label><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+
+Web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+
+
+    <servlet>
+        <servlet-name>Exp29</servlet-name>
+        <servlet-class>Exp29</servlet-class>
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>Exp29</servlet-name>
+        <url-pattern>/Exp29</url-pattern>
+    </servlet-mapping>
+</web-app>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+http://localhost:8080/29/index.html
+
+
+/path/to/tomcat/webapps/29/
+├── index.html
+├── WEB-INF/
+│   ├── classes/
+│   │   └── Exp29.class
+│   ├── lib/
+│   │   └── mysql-connector-java.jar (if DB is needed later)
+│   └── web.xml
+
+
+
+
+
+
+30. Develop a program to receive student subject marks through HTML forms TextField and send the response as passed or failed in the examination.
+
+
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+
+public class Exp30 extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve the marks from the form
+        String marksParam = request.getParameter("marks");
+        int marks = Integer.parseInt(marksParam);
+
+
+        // Determine if the student passed or failed
+        String result = marks >= 40 ? "Passed" : "Failed";
+
+
+        // Set the response content type
+        response.setContentType("text/html");
+
+
+        // Write the response
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h2>Your Result</h2>");
+        out.println("<p>You have " + result + " in the examination.</p>");
+        out.println("</body></html>");
+    }
+}
+
+
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Marks Form</title>
+</head>
+<body>
+    <h2>Enter Your Marks</h2>
+    <form action="Exp30" method="POST">
+        <label for="marks">Marks:</label>
+        <input type="text" id="marks" name="marks" required>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+
+web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+
+
+    <servlet>
+        <servlet-name>Exp30</servlet-name>
+        <servlet-class>Exp30</servlet-class>
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>Exp30</servlet-name>
+        <url-pattern>/Exp30</url-pattern>
+    </servlet-mapping>
+</web-app>
+
+
+//Dont copy below ka
+/path/to/tomcat/webapps/30/
+├── index.html
+├── WEB-INF/
+│   ├── classes/
+│   │   └── Exp30.class
+│   └── web.xml
+
+
+
+
+http://localhost:8080/30/index.html
+
+
+
+
+31. Write a program to check credentials of users (Client will send user ID and password to server, and the server will authenticate the client using equals()).
+Server Side
+import java.io.*;
+import java.net.*;
+
+
+public class Server31 {
+    private static final String USER_ID = "admin";
+    private static final String PASSWORD = "12345";
+
+
+    public static void main(String[] args) {
+        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+            System.out.println("Server is running...");
+
+
+            while (true) {
+                Socket socket = serverSocket.accept();
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                     PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+
+
+                    String receivedUserId = in.readLine();
+                    String receivedPassword = in.readLine();
+
+
+                    if (USER_ID.equals(receivedUserId) && PASSWORD.equals(receivedPassword)) {
+                        out.println("Authentication Successful");
+                    } else {
+                        out.println("Authentication Failed");
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+Client Side
+import java.io.*;
+import java.net.*;
+
+
+public class Client31 {
+    public static void main(String[] args) {
+        try (Socket socket = new Socket("localhost", 5000);
+             BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+
+            System.out.print("Enter User ID: ");
+            String userId = consoleReader.readLine();
+            System.out.print("Enter Password: ");
+            String password = consoleReader.readLine();
+
+
+            out.println(userId);
+            out.println(password);
+
+
+            String response = in.readLine();
+            System.out.println("Server: " + response);
+        } catch (IOException e) {
+            e.printStackTrace(); }}}
+32. Write a program using Socket and ServerSocket to create a chat application.
+Server Side
+import java.io.*;
+import java.net.*;
+
+
+public class ChatServer {
+    public static void main(String[] args) {
+        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+            System.out.println("Server is waiting for a client...");
+            Socket socket = serverSocket.accept();
+            System.out.println("Client connected!");
+
+
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
+
+
+                // Create a thread for listening to the client
+                Thread clientListener = new Thread(() -> {
+                    try {
+                        String messageFromClient;
+                        while ((messageFromClient = in.readLine()) != null) {
+                            System.out.println("Client: " + messageFromClient);
+                            if ("bye".equalsIgnoreCase(messageFromClient)) {
+                                System.out.println("Chat ended by client.");
+                                break;
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                clientListener.start();
+
+
+                // Main thread will handle sending messages to the client
+                String messageFromServer;
+                while (true) {
+                    System.out.print("Server: ");
+                    messageFromServer = consoleReader.readLine();
+                    out.println(messageFromServer);
+                    if ("bye".equalsIgnoreCase(messageFromServer)) {
+                        System.out.println("Chat ended by server.");
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+
+
+
+Client Side
+
+
+import java.io.*;
+import java.net.*;
+
+
+public class Client32 {
+    public static void main(String[] args) {
+        try (Socket socket = new Socket("localhost", 5000);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
+
+
+            System.out.println("Connected to the server!");
+
+
+            // Create a thread for listening to the server
+            Thread serverListener = new Thread(() -> {
+                try {
+                    String messageFromServer;
+                    while ((messageFromServer = in.readLine()) != null) {
+                        System.out.println("Server: " + messageFromServer);
+                        if ("bye".equalsIgnoreCase(messageFromServer)) {
+                            System.out.println("Chat ended by server.");
+                            break;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            serverListener.start();
+
+
+            // Main thread will handle sending messages to the server
+            String messageFromClient;
+            while (true) {
+                System.out.print("Client: ");
+                messageFromClient = consoleReader.readLine();
+                out.println(messageFromClient);
+                if ("bye".equalsIgnoreCase(messageFromClient)) {
+                    System.out.println("Chat ended by client.");
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+
+33. Write a program to develop a prime number server (Client will send any number to the server, and the server will respond whether the number is prime or not).
+Server Side
+import java.io.*;
+import java.net.*;
+
+
+public class Server33 {
+    public static void main(String[] args) {
+        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+            System.out.println("Server is waiting for a client...");
+            Socket socket = serverSocket.accept();
+            System.out.println("Client connected!");
+
+
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+
+
+                String input;
+                while ((input = in.readLine()) != null) {
+                    int number = Integer.parseInt(input);
+                    boolean isPrime = isPrime(number);
+                    out.println(isPrime ? "Prime" : "Not Prime");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    // Function to check if a number is prime
+    private static boolean isPrime(int number) {
+        if (number <= 1) return false;
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+
+
+Client Side
+import java.io.*;
+import java.net.*;
+
+
+public class Client33 {
+    public static void main(String[] args) {
+        try (Socket socket = new Socket("localhost", 5000);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
+
+
+            System.out.println("Connected to the server!");
+
+
+            System.out.print("Enter a number: ");
+            int number = Integer.parseInt(consoleReader.readLine());
+            out.println(number);
+
+
+            String response = in.readLine();
+            System.out.println("Server Response: " + response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+34. Write a program using DatagramPacket and DatagramSocket to create a chat application.
