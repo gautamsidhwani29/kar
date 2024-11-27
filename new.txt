@@ -1,0 +1,40 @@
+ishi@Nishis-Laptop DB % javac -cp ".:/Users/nishi/Downloads/Manuals/AJP Manual/DB/mysql-connector-java-8.0.13.jar" CreateAndInsertStudent.java
+
+
+
+nishi@Nishis-Laptop DB % java -cp ".:/Users/nishi/Downloads/Manuals/AJP Manual/DB/mysql-connector-java-8.0.13.jar" CreateAndInsertStudent       
+
+
+
+Servlet:
+
+
+
+
+javac -cp "/Users/nishi/Downloads/apache-tomcat-9.0.96/lib/servlet-api.jar" HelloWorldExample.java
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class DateTimeAndIP {
+    public static void main(String[] args) {
+        // Get current date and time
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = currentDateTime.format(formatter);
+        
+        // Get IP address
+        try {
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            String ipAddress = inetAddress.getHostAddress();
+            
+            // Print current date, time, and IP address
+            System.out.println("Current Date and Time: " + formattedDateTime);
+            System.out.println("IP Address: " + ipAddress);
+        } catch (UnknownHostException e) {
+            System.out.println("Unable to fetch IP address: " + e.getMessage());
+        }
+    }
+}
